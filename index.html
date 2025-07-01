@@ -19,6 +19,7 @@
       width: 100vw;
       height: 100vh;
       background: #ffffff;
+      display: none;
     }
 
     .follower {
@@ -55,7 +56,7 @@
       right: 10px;
     }
 
-    #end-screen {
+    #end-screen, #start-screen {
       position: absolute;
       top: 0;
       left: 0;
@@ -68,12 +69,12 @@
       align-items: center;
       justify-content: center;
       font-size: 24px;
-      display: none;
       text-align: center;
       padding: 2em;
+      z-index: 20;
     }
 
-    #logo {
+    #start-logo, #logo {
       margin-top: 2em;
       width: 200px;
     }
@@ -84,7 +85,7 @@
       color: #444;
     }
 
-    #restart-btn {
+    .btn {
       margin-top: 2em;
       padding: 0.7em 1.5em;
       font-size: 18px;
@@ -96,23 +97,35 @@
       transition: background 0.2s;
     }
 
-    #restart-btn:hover {
+    .btn:hover {
       background-color: #51229a;
     }
   </style>
 </head>
 <body>
 
+  <!-- Startbildschirm -->
+  <div id="start-screen">
+    <h1>Fang den LinkedIn-Follower</h1>
+    <p>Wie viele Follower-Typen kannst du in 30 Sekunden erwischen?</p>
+    <button class="btn" id="start-btn">Spiel starten</button>
+    <img id="start-logo" src="img/nextpublic-logo.png" alt="next:public Logo">
+    <div class="credits">Ein Spiel von next:public</div>
+  </div>
+
+  <!-- Spielfeld -->
   <div id="game-area">
     <div id="score">Punkte: 0</div>
     <div id="timer">Zeit: 30</div>
-    <div id="end-screen">
-      <div>🎉 Zeit ist um!</div>
-      <div id="final-score" style="margin-top: 1em;"></div>
-      <img id="logo" src="img/nextpublic-logo.png" alt="next:public Logo">
-      <div class="credits">Ein Spiel von next:public</div>
-      <button id="restart-btn">Nochmal spielen</button>
-    </div>
+  </div>
+
+  <!-- Endbildschirm -->
+  <div id="end-screen" style="display:none;">
+    <div>🎉 Zeit ist um!</div>
+    <div id="final-score" style="margin-top: 1em;"></div>
+    <img id="logo" src="img/nextpublic-logo.png" alt="next:public Logo">
+    <div class="credits">Ein Spiel von next:public</div>
+    <button class="btn" id="restart-btn">Nochmal spielen</button>
   </div>
 
   <script>
@@ -129,6 +142,8 @@
     const timerDisplay = document.getElementById("timer");
     const endScreen = document.getElementById("end-screen");
     const finalScore = document.getElementById("final-score");
+    const startScreen = document.getElementById("start-screen");
+    const startBtn = document.getElementById("start-btn");
 
     let score = 0;
     let timeLeft = 30;
@@ -185,7 +200,11 @@
       startGame();
     };
 
-    window.onload = startGame;
+    startBtn.onclick = () => {
+      startScreen.style.display = "none";
+      gameArea.style.display = "block";
+      startGame();
+    };
   </script>
 </body>
 </html>
