@@ -100,6 +100,13 @@
     .btn:hover {
       background-color: #51229a;
     }
+
+    .points-info {
+      margin-top: 1.5em;
+      font-size: 16px;
+      color: #333;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -108,6 +115,15 @@
   <div id="start-screen">
     <h1>Fang den LinkedIn-Follower</h1>
     <p>Wie viele Follower-Typen kannst du in 30 Sekunden erwischen?</p>
+    <div class="points-info">
+      <strong>Follower-Typen & Punkte:</strong><br>
+      👍 Gefällt mir → 1 Punkt<br>
+      💬 Kommentar → 2 Punkte<br>
+      🔁 Repost → 3 Punkte<br>
+      👀 Nur-Mitleser:in → 1 Punkt<br>
+      💡 Thought Leader → 5 Punkte<br>
+      ❌ 🤡 Troll → –2 Punkte (nicht anklicken!)
+    </div>
     <button class="btn" id="start-btn">Spiel starten</button>
     <img id="start-logo" src="img/nextpublic-logo.png" alt="next:public Logo">
     <div class="credits">Ein Spiel von next:public</div>
@@ -134,7 +150,8 @@
       { img: 'img/comment.png', points: 2 },
       { img: 'img/repost.png', points: 3 },
       { img: 'img/observer.png', points: 1 },
-      { img: 'img/thoughtleader.png', points: 5 }
+      { img: 'img/thoughtleader.png', points: 5 },
+      { img: 'img/troll.png', points: -2 }
     ];
 
     const gameArea = document.getElementById("game-area");
@@ -168,7 +185,6 @@
       };
 
       gameArea.appendChild(follower);
-
       setTimeout(() => follower.remove(), 2000);
     }
 
