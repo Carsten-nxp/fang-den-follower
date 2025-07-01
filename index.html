@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Fang den LinkedIn-Follower</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #game-area {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
+    }
+
+    .follower {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .follower:active {
+      transform: scale(0.9);
+    }
+
+    #score, #timer {
+      position: absolute;
+      top: 10px;
+      font-size: 18px;
+      background: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    #score {
+      left: 10px;
+    }
+
+    #timer {
+      right: 10px;
+    }
+
+    #end-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      display: none;
+    }
+
+    #logo {
+      margin-top: 2em;
+      width: 180px;
+    }
+
+    .credits {
+      margin-top: 1em;
+      font-size: 16px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-area">
+    <div id="score">Punkte: 0</div>
+    <div id="timer">Zeit: 30</div>
+    <div id="end-screen">
+      <div>🎉 Zeit ist um!</div>
+      <div id="final-score" style="margin-top: 1em;"></div>
+      <img id="logo" src="img/nextpublic-logo.png" alt="next:public Logo">
+      <div class="credits">Ein Spiel von next:public</div>
+    </div>
+  </div>
+
+  <script>
+    const followerTypes = [
+      { img: 'img/like.png', points: 1 },
+      { img: 'img/comment.png', points: 2 },
+      { img: 'img/repost.png', points: 3 },
+      { img: 'img/observer.png', points: 1 },
+      { img: 'img/thoughtleader.png', points: 5 }
+    ];
+
+    const gameArea = document.getElementById("game-area");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+    const endScreen = document.getElementById("end-screen");
+    const finalScore = document.getElementById("final-score");
+
+    let score = 0;
+    let timeLeft = 30;
+    let gameInterval;
+    let spawnInterval;
+
+    function spawnFollower() {
+      const type = followerTypes[Math.floor(Math.random() * followerTypes.length)];
+      const follower = document.createElement("img");
+      follower.src = type.img;
+      follower.className = "follower";
+
+      const x = Math.random() * (window.innerWidth - 60);
+      const y = Math.random() * (window.innerHeight - 60);
+      follower.style.left = `${x}px`;
+      follower.style.top = `${y}px`;
+
+      follower.onclick = () => {
+        score += type.points;
+        scoreDisplay.textContent = "Punkte: " + score;
+        follower.remove();
+      };
+
+      gameArea.appendChild(follower);
+
+      setTimeout(() => follower.remove(), 2000);
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 30;
+      scoreDisplay.textContent = "Punkte: 0";
+      timerDisplay.textContent = "Zeit: 30";
+
+      gameInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = "Zeit: " + timeLeft;
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+
+      spawnInterval = setInterval(spawnFollower, 600);
+    }
+
+    function endGame() {
+      clearInterval(gameInterval);
+      clearInterval(spawnInterval);
+      endScreen.style.display = "flex";
+      finalScore.textContent = "Dein Punktestand: " + score;
+    }
+
+    window.onload = startGame;
+  </script>
+</body>
+</html>
