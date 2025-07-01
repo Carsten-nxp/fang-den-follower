@@ -20,15 +20,22 @@
       background: #ffffff;
     }
 
-    .follower {
+   .follower {
   position: absolute;
   cursor: pointer;
   transition: transform 0.1s;
-  width: 14vw;
-  max-width: 100px;
-  min-width: 60px;
-  aspect-ratio: 1 / 1;
+  width: 80px;
+  height: 80px;
 }
+
+/* Für größere Bildschirme (z. B. Laptops/Desktops) */
+@media (min-width: 768px) {
+  .follower {
+    width: 200px;
+    height: 200px;
+  }
+}
+
 
 
     .follower:active {
