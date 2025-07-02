@@ -163,6 +163,7 @@
     const startBtn = document.getElementById("start-btn");
 
     let score = 0;
+    let highscore = localStorage.getItem("highscore") || 0;
     let timeLeft = 30;
     let gameInterval;
     let spawnInterval;
@@ -204,10 +205,18 @@
     }
 
     function endGame() {
-      clearInterval(gameInterval);
-      clearInterval(spawnInterval);
-      endScreen.style.display = "flex";
-      finalScore.textContent = "Dein Punktestand: " + score;
+  clearInterval(gameInterval);
+  clearInterval(spawnInterval);
+
+  if (score > highscore) {
+    highscore = score;
+    localStorage.setItem("highscore", highscore);
+    finalScore.innerHTML = "🎉 Neuer Rekord!<br>Dein Punktestand: " + score;
+  } else {
+    finalScore.innerHTML = "Dein Punktestand: " + score + "<br>Rekord: " + highscore;
+  }
+
+  endScreen.style.display = "flex";
     }
 
     document.getElementById("restart-btn").onclick = () => {
